@@ -7,13 +7,35 @@
             <div id="reversi_board"></div>
             <div style="width: 50px;"></div>
             <div style="display: inline-block;">
-                <div style="height: 100px;"></div>
+                <div style="height: 130px;"></div>
+                <label style="color: rgb(255, 166, 0);">
+                    目前兩方都電腦，會有bug，目前沒修好。
+                    <br>
+                    同時目前SBE是只取數量，所以目前很廢。
+                </label>
+                <br>
+                <br>
                 誰先攻：
                 <select id="select_round" onchange="init()">
                     <option value="black">黑色</option>
                     <option value="white">白色</option>
                 </select>
                 <button onclick="init()">重新開始</button>
+                <br>
+                黑子玩者：
+                <select id="select_black" onchange="init()">
+                    <option value="player">玩家</option>
+                    <option value="computer">電腦</option>
+                </select>
+                <br>
+                白子玩者：
+                <select id="select_white" onchange="init()">
+                    <option value="player">玩家</option>
+                    <option value="computer">電腦</option>
+                </select>
+                <br>
+                搜尋樹深度：
+                <input id="search_tree_level_limit" type="text" value="6" size=2>
                 <br>
                 黑子數量：
                 <label id="black_size"></label>
@@ -24,10 +46,11 @@
                 <label id="result" style="font-size:50px; color:#FF0000"></label>
             </div>
         </section>
-        
-    
 
         <link rel=stylesheet type="text/css" href="index.css">
+        <script type="text/javascript" src="reversi.js"></script>
+        <script type="text/javascript" src="reversiAI.js"></script>
         <script type="text/javascript" src="main.js"></script>
+        
     </body>
 </html>
