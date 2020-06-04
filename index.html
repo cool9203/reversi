@@ -1,0 +1,26 @@
+<html>
+    <title>reversi</title>
+    <body>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+        <div id="reversi_board"></div>
+        
+        
+        誰先攻：
+        <select id="select_round" onchange="init()">
+            <option value="black">黑色</option>
+            <option value="white">白色</option>
+        </select>
+        <button onclick="init()">重新開始</button>
+        <br>
+        黑子數量：
+        <label id="black_size"></label>
+        <br>
+        白子數量：
+        <label id="white_size"></label>
+    
+
+        <link rel=stylesheet type="text/css" href="index.css">
+        <script type="text/javascript" src="main.js"></script>
+    </body>
+</html>

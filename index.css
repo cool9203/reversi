@@ -1,0 +1,10 @@
+.board{
+    border-style:solid;
+    border-width:1px;
+}
+
+#reversi_board{
+    border-style:solid;
+    border-width:1px;
+    width: 496px;
+}
