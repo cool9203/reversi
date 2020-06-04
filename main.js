@@ -159,21 +159,21 @@ class reversi{
     show_map(){
         for (let i = 0; i < 8; i++){
             for (let j = 0; j < 8; j++){
-                document.querySelector(`#index${i.toString()}${j.toString()}`).src="./empty.jpg"
+                document.querySelector(`#index${i.toString()}${j.toString()}`).src="./empty.jpg";
             }
         }
         var black = 0;
         var white = 0;
         for (let i = 0; i<this.black.length; i++){
-            document.querySelector(`#index${this.black[i].x}${this.black[i].y}`).src="./black.jpg"
+            document.querySelector(`#index${this.black[i].x}${this.black[i].y}`).src="./black.jpg";
             black += 1;
         }
         for (let i = 0; i<this.white.length; i++){
-            document.querySelector(`#index${this.white[i].x}${this.white[i].y}`).src="./white.jpg"
+            document.querySelector(`#index${this.white[i].x}${this.white[i].y}`).src="./white.jpg";
             white += 1;
         }
         for (let i = 0; i<this.step.length; i++){
-            document.querySelector(`#index${this.step[i].x}${this.step[i].y}`).src="./step.jpg"
+            document.querySelector(`#index${this.step[i].x}${this.step[i].y}`).src="./step.jpg";
         }
         document.querySelector("#black_size").innerHTML = black;
         document.querySelector("#white_size").innerHTML = white;
@@ -222,19 +222,31 @@ class reversi{
 var r;
 
 function run(i ,j){
-    if ((r.black.length + r.white.length) == 64)
+    if ((r.black.length + r.white.length) == 64 || !r.search_point_array(r.step, i ,j))
         return;
-    r.get_step();
-    if (r.step.length > 0){
+    if (r.step.length > 0)
         r.filp(new POINT(i ,j));
-    }else{
+
+    if ((r.black.length + r.white.length) == 64){
+        if (r.black.length > r.white.length)
+            document.querySelector("#result").innerHTML = "黑子贏";
+        else if (r.black.length < r.white.length)
+            document.querySelector("#result").innerHTML = "白子贏";
+        else
+            document.querySelector("#result").innerHTML = "平手";
+    }
+    
+    
+    r.round = !r.round;
+    r.get_step();
+    if (r.step.length == 0 && (r.black.length + r.white.length) != 64){
         if (r.round)
             alert("黑方跳過");
         else
             alert("白方跳過");
+        r.round = !r.round;
+        r.get_step();
     }
-    r.round = !r.round;
-    r.get_step();
     r.show_map();
 }
 
@@ -242,5 +254,6 @@ function init(){
     r = new reversi(document.querySelector("#select_round").value);
     r.get_step();
     r.show_map();
+    document.querySelector("#result").innerHTML = "";
 }
 init();
