@@ -32,8 +32,6 @@ async function run(i ,j){
     
     r.round = !r.round;
     r.get_step();
-    r.show_map();
-    await delay(0);
     if (r.step.length == 0 && (r.black.length + r.white.length) != 64){
         if (r.round)
             alert("黑方跳過");
@@ -42,6 +40,9 @@ async function run(i ,j){
         r.round = !r.round;
         r.get_step();
     }
+
+    r.show_map();
+    await delay(0);
 
     if ((r.black.length + r.white.length) != 64){
         document.querySelector("#ai_computing").innerHTML = "AI計算中";
