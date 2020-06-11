@@ -1,7 +1,7 @@
 var board = document.querySelector("#reversi_board");
 for (let i = 0; i < 8; i++){
     for (let j = 0; j < 8; j++){
-        board.innerHTML += `<img class=\"board\" id=\"index${i.toString()}${j.toString()}\" src=\"./empty.jpg\" onclick=\"run(${i},${j})\">`;
+        board.innerHTML += `<img class=\"board\" id=\"index${i.toString()}${j.toString()}\" src=\"./empty.jpg\" onclick=\"run(${i},${j})\" onmouseover=\"add_border(this)\" onmouseout=\"re_add_border(this)\">`;
     }
     board.innerHTML += "<br>";
 }
@@ -13,11 +13,12 @@ function show_index(i, j){
 }
 
 
-function run(i ,j){
+async function run(i ,j){
     if ((r.black.length + r.white.length) == 64 || !r.search_point_array(r.step, i ,j))
         return;
-    if (r.step.length > 0)
+    if (r.step.length > 0){
         r.filp(new POINT(i ,j));
+    }
 
     if ((r.black.length + r.white.length) == 64){
         if (r.black.length > r.white.length)
@@ -31,6 +32,8 @@ function run(i ,j){
     
     r.round = !r.round;
     r.get_step();
+    r.show_map();
+    await delay(0);
     if (r.step.length == 0 && (r.black.length + r.white.length) != 64){
         if (r.round)
             alert("黑方跳過");
@@ -41,14 +44,16 @@ function run(i ,j){
     }
 
     if ((r.black.length + r.white.length) != 64){
+        document.querySelector("#ai_computing").innerHTML = "AI計算中";
+        await delay(0);
         if (r.round == true && black == "computer"){
             ai_run(bai);
         }else if (r.round == false && white == "computer"){
             ai_run(wai);
         }
+        document.querySelector("#ai_computing").innerHTML = "";
+        await delay(0);
     }
-    r.show_map();
-    return;
 }
 
 
@@ -83,4 +88,31 @@ function init(){
     }else if (first == "white" && white == "computer"){
         ai_run(wai);
     }
+}
+
+
+function add_border(x){
+    x.style.borderColor = "#FF0000";
+}
+
+
+function re_add_border(x){
+    x.style.borderColor = "#000000";
+}
+
+
+function delay(ms){
+    return new Promise((reslove, reject) => {
+        setTimeout(() => {
+            reslove("success");
+        }, ms);
+    });
+}
+
+
+function computing_message_show(id, text){
+    return new Promise((reslove, reject) => {
+        document.querySelector(id).innerHTML = text;
+        reslove("success");
+    })
 }
