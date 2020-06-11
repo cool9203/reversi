@@ -1,3 +1,7 @@
+/*  二維單點資料結構
+    實作出:
+    POINT的比較子:equal
+    POINT的加法:add */
 class POINT{
     constructor(x, y){
         this.x = x;
@@ -27,6 +31,11 @@ class POINT{
 }
 
 
+/*  黑白棋棋盤物件
+    round:true=黑子, false=白子
+    get_step():取得當前棋盤可以下那些地方。
+    filp(POINT):給定一個POINT後，棋盤下該點並翻轉應該要翻的棋子。
+*/
 class reversi{
     constructor(round){
         if (typeof(round) == "string"){
@@ -54,12 +63,13 @@ class reversi{
         for (let i = 0; i < 8; i++){
             for (let j = 0; j < 8; j++){
                 let temp = new POINT(i, j);
-                if (this.is_empty(temp) && this.check_chess(chess, temp))
+                if (this.is_empty(temp) && this.check_chess(chess, temp))   //如果該點不在黑、白棋裡，且他之間是可以下的
                     this.step.push(temp);
             }
         }
     }
 
+    //給定p，為該reversi下點p，並翻轉應該翻轉的棋子
     filp(p){
         var chess1, chess2;
         if (this.round){
@@ -71,9 +81,9 @@ class reversi{
         }
 
         this.filp_chess = [];
-        this.check_chess(chess1, p);
+        this.check_chess(chess1, p);    //取得應該要翻轉的棋子，存在thus.filp_chess
         chess1.push(p);
-        for (let i = 0; i < this.filp_chess.length; i++){
+        for (let i = 0; i < this.filp_chess.length; i++){   //翻轉棋子
             let e = this.filp_chess[i];
             if (!this.search_point_array(chess1, e))
                 chess1.push(e);
@@ -82,14 +92,15 @@ class reversi{
         this.filp_chess = [];
     }
 
+    //檢查chess和p是否可以下，同時記錄chess裡各點和p之間可以翻轉的棋子在this.filp.chess裡
     check_chess(chess, p){
         var flag = false;
-        for (let i = 0; i < chess.length; i++){
+        for (let i = 0; i < chess.length; i++){         //掃過chess裡的各點
             let delta_x = Math.abs(chess[i].x - p.x);
             let delta_y = Math.abs(chess[i].y - p.y);
             let temp = [];
-            if ((delta_x > 1 || delta_y > 1) && this.calculate_slope(chess[i], p) != -1 && this.check_path(chess[i], p, temp)){
-                for (let i = 0; i < temp.length; i++)
+            if ((delta_x > 1 || delta_y > 1) && this.calculate_slope(chess[i], p) != -1 && this.check_path(chess[i], p, temp)){ //(先看他們之間的x或y有沒有超過1，沒超過則代表相鄰) && (檢查兩點之間斜率，只要不是回傳-1則代表他們在一條線上) && (檢查兩點之間是否都是相反顏色的棋子)
+                for (let i = 0; i < temp.length; i++)   //把temp的每個點(POINT結構)，存到this.filp_chess裡
                     this.filp_chess.push(temp[i]);
                 flag = true;
             }
@@ -97,6 +108,10 @@ class reversi{
         return flag;
     }
 
+    //紀錄p1->p2中間要翻轉的棋子在filp_chess裡
+    //但如果p1->p2中間有錯，則return false, 否則return true
+    //EX:p1=黑, p2=黑, 但p1->p2中間還有顆黑子，則return false
+    //   如果p1->p2中間都是白子，則return true
     check_path(p1, p2, filp_chess){
         var chess;
         if (!this.round)
@@ -118,27 +133,32 @@ class reversi{
         return true;
     }
 
+    //檢查point在this.white和this.black裡是否都不存在
+    //都不存在 return true
+    //存在     return false
     is_empty(point){
         return !(this.search_point_array(this.white, point) || this.search_point_array(this.black, point));
     }
 
+    //計算p1和p2之間是否在同一條線上，用斜率來做
     calculate_slope(p1, p2){
         var _x = (p2.x - p1.x);
         var _y = (p2.y - p1.y);
         var m = (_y / _x);
 
-        if (_x == 0.0)
+        if (_x == 0.0)          //在水平線上
             return 0;
-        else if (_y == 0.0)
+        else if (_y == 0.0)     //在鉛直線上
             return 1;
-        else if (m == 1.0)
+        else if (m == 1.0)      //在斜線上，p1->p2是這樣／的直線
             return 2;
-        else if (m == -1.0)
+        else if (m == -1.0)     //在斜線上，p1->p2是這樣＼的直線
             return 3;
-        else
+        else                    //不是在同一條線上
             return -1;
     }
 
+    //計算p1->p2的每一步的偏移量
     get_offset(p1, p2){
         var x, y;
         if (p1.x == p2.x)
@@ -154,6 +174,7 @@ class reversi{
         return new POINT(x, y);
     }
 
+    //使用附件的圖片 & index.html來顯示棋盤
     show_map(){
         for (let i = 0; i < 8; i++){
             for (let j = 0; j < 8; j++){

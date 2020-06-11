@@ -5,7 +5,7 @@ for (let i = 0; i < 8; i++){
     }
     board.innerHTML += "<br>";
 }
-var r, black, white, level_limit, bai, wai;
+var r, black, white, level_limit, ai;
 init();
 
 
@@ -41,9 +41,9 @@ async function run(i ,j){
 
     if ((r.black.length + r.white.length) != 64){
         if (r.round == true && black == "computer"){
-            ai_run(bai);
+            ai_run(ai);
         }else if (r.round == false && white == "computer"){
-            ai_run(wai);
+            ai_run(ai);
         }
     }
 }
@@ -78,12 +78,11 @@ function init(){
     document.querySelector("#result").innerHTML = "";
     document.querySelector("#ai_computing").innerHTML = "";
 
-    bai = new reversiAI(true, level_limit);
-    wai = new reversiAI(false, level_limit);
+    ai = new reversiAI(true, level_limit);
     if (first == "black" && black == "computer"){
-        ai_run(bai);
+        ai_run(ai);
     }else if (first == "white" && white == "computer"){
-        ai_run(wai);
+        ai_run(ai);
     }
 }
 
