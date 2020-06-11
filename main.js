@@ -8,10 +8,6 @@ for (let i = 0; i < 8; i++){
 var r, black, white, level_limit, bai, wai;
 init();
 
-function show_index(i, j){
-    alert(`${i}, ${j}`);
-}
-
 
 async function run(i ,j){
     if ((r.black.length + r.white.length) == 64 || !r.search_point_array(r.step, i ,j))
@@ -29,7 +25,6 @@ async function run(i ,j){
             document.querySelector("#result").innerHTML = "平手";
     }
     
-    
     r.round = !r.round;
     r.get_step();
     if (r.step.length == 0 && (r.black.length + r.white.length) != 64){
@@ -45,20 +40,18 @@ async function run(i ,j){
     await delay(0);
 
     if ((r.black.length + r.white.length) != 64){
-        document.querySelector("#ai_computing").innerHTML = "AI計算中";
-        await delay(0);
         if (r.round == true && black == "computer"){
             ai_run(bai);
         }else if (r.round == false && white == "computer"){
             ai_run(wai);
         }
-        document.querySelector("#ai_computing").innerHTML = "";
-        await delay(0);
     }
 }
 
 
-function ai_run(ai){
+async function ai_run(ai){
+    document.querySelector("#ai_computing").innerHTML = "AI計算中";
+    await delay(30);
     for (let i = 0; i < 8; i++){
         for (let j = 0; j < 8; j++){
             document.querySelector(`#index${i.toString()}${j.toString()}`).classList = ["board"];
@@ -67,6 +60,8 @@ function ai_run(ai){
     let p = ai.get_next(r);
     document.querySelector(`#index${p.x.toString()}${p.y.toString()}`).classList.add("computer_board");
     run(p.x, p.y);
+    document.querySelector("#ai_computing").innerHTML = "AI計算完成";
+    await delay(30);
 }
 
 
@@ -81,6 +76,7 @@ function init(){
     level_limit = parseInt(document.querySelector("#search_tree_level_limit").value);
     
     document.querySelector("#result").innerHTML = "";
+    document.querySelector("#ai_computing").innerHTML = "";
 
     bai = new reversiAI(true, level_limit);
     wai = new reversiAI(false, level_limit);
@@ -108,12 +104,4 @@ function delay(ms){
             reslove("success");
         }, ms);
     });
-}
-
-
-function computing_message_show(id, text){
-    return new Promise((reslove, reject) => {
-        document.querySelector(id).innerHTML = text;
-        reslove("success");
-    })
 }
