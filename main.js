@@ -47,10 +47,10 @@ async function run(i ,j){
         if (r.round == true && black == "computer"){
             if ((r.black.length + r.white.length) < 15){
                 wai.set_level_limit(first);
-                wai.set_weight(15, 1, 4, 10, -2, 0, -15, 0, 0, 0, 0, 0);
+                wai.set_weight(15, 1, 4, 8, -2, 1.5, -15, 0, 0, 0, 0, -1.5);
             }else if ((r.black.length + r.white.length) < 50){
                 wai.set_level_limit(middle);
-                wai.set_weight(20, 1, 4, 10, -2, 0, -20, -1, -4, -10, 2, -1.5);
+                wai.set_weight(25, 1, 4, 8, -3, 0, -30, -1, -4, -8, 3, -1.5);
             }else if ((r.black.length + r.white.length) < 64){
                 wai.set_level_limit(final);
                 wai.set_weight(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, -1);
@@ -60,10 +60,10 @@ async function run(i ,j){
         }else if (r.round == false && white == "computer"){
             if ((r.black.length + r.white.length) < 15){
                 bai.set_level_limit(first);
-                bai.set_weight(15, 1, 4, 10, -2, 0, -15, 0, 0, 0, 0, 0);
+                bai.set_weight(15, 1, 4, 8, -2, 1.5, -15, 0, 0, 0, 0, -1.5);
             }else if ((r.black.length + r.white.length) < 50){
                 bai.set_level_limit(middle);
-                bai.set_weight(20, 1, 4, 10, -2, 0, -20, -1, -4, -10, 2, -1.5);
+                bai.set_weight(25, 1, 4, 8, -3, 0, -30, -1, -4, -8, 3, -1.5);
             }else if ((r.black.length + r.white.length) < 64){
                 bai.set_level_limit(final);
                 bai.set_weight(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, -1);
@@ -99,17 +99,16 @@ function init(){
 
     black = document.querySelector("#select_black").value;
     white = document.querySelector("#select_white").value;
-    level_limit = parseInt(document.querySelector("#search_tree_level_limit").value);
 
-    first = parseInt(document.querySelectorAll("#search_tree_level_limit")[0].value);
-    middle = parseInt(document.querySelectorAll("#search_tree_level_limit")[1].value);
-    final = parseInt(document.querySelectorAll("#search_tree_level_limit")[2].value);
+    first = parseInt(document.querySelector("#search_tree_level_limit_1").value);
+    middle = parseInt(document.querySelector("#search_tree_level_limit_2").value);
+    final = parseInt(document.querySelector("#search_tree_level_limit_3").value);
     
     document.querySelector("#result").innerHTML = "";
     document.querySelector("#ai_computing").innerHTML = "";
 
-    wai = new reversiAI(true, level_limit);
-    bai = new reversiAI(true, level_limit);
+    wai = new reversiAI(true, first);
+    bai = new reversiAI(true, first);
     if (first_round == "black" && black == "computer"){
         ai_run(wai);
     }else if (first_round == "white" && white == "computer"){
