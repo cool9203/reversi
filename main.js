@@ -5,7 +5,7 @@ for (let i = 0; i < 8; i++){
     }
     board.innerHTML += "<br>";
 }
-var r, black, white, level_limit, ai, bai, first, middle, final;
+var r, black, white, level_limit, wai, bai, first, middle, final;
 init();
 
 
@@ -44,21 +44,32 @@ async function run(i ,j){
     await delay(0);
 
     if ((r.black.length + r.white.length) != 64){
-        if ((r.black.length + r.white.length) < 15){
-            ai.set_level_limit(first);
-            ai.set_weight(15, 1, 4, 10, -2, 0, -15, 0, 0, 0, 0, 0);
-        }else if ((r.black.length + r.white.length) < 50){
-            ai.set_level_limit(middle);
-            ai.set_weight(20, 1, 4, 10, -2, 0, -20, -1, -4, -10, 2, -1.5);
-        }else if ((r.black.length + r.white.length) < 64){
-            ai.set_level_limit(final);
-            ai.set_weight(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, -1);
-        }
-
         if (r.round == true && black == "computer"){
-            ai_run(ai);
+            if ((r.black.length + r.white.length) < 15){
+                wai.set_level_limit(first);
+                wai.set_weight(15, 1, 4, 10, -2, 0, -15, 0, 0, 0, 0, 0);
+            }else if ((r.black.length + r.white.length) < 50){
+                wai.set_level_limit(middle);
+                wai.set_weight(20, 1, 4, 10, -2, 0, -20, -1, -4, -10, 2, -1.5);
+            }else if ((r.black.length + r.white.length) < 64){
+                wai.set_level_limit(final);
+                wai.set_weight(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, -1);
+            }
+
+            ai_run(wai);
         }else if (r.round == false && white == "computer"){
-            ai_run(ai);
+            if ((r.black.length + r.white.length) < 15){
+                bai.set_level_limit(first);
+                bai.set_weight(15, 1, 4, 10, -2, 0, -15, 0, 0, 0, 0, 0);
+            }else if ((r.black.length + r.white.length) < 50){
+                bai.set_level_limit(middle);
+                bai.set_weight(20, 1, 4, 10, -2, 0, -20, -1, -4, -10, 2, -1.5);
+            }else if ((r.black.length + r.white.length) < 64){
+                bai.set_level_limit(final);
+                bai.set_weight(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, -1);
+            }
+
+            ai_run(bai);
         }
     }
 }
@@ -97,10 +108,10 @@ function init(){
     document.querySelector("#result").innerHTML = "";
     document.querySelector("#ai_computing").innerHTML = "";
 
-    ai = new reversiAI(true, level_limit);
-    bai = new reversiAI_test(true, level_limit);
+    wai = new reversiAI(true, level_limit);
+    bai = new reversiAI(true, level_limit);
     if (first_round == "black" && black == "computer"){
-        ai_run(ai);
+        ai_run(wai);
     }else if (first_round == "white" && white == "computer"){
         ai_run(bai);
     }
