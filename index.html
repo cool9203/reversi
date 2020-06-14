@@ -7,7 +7,7 @@
             <div id="reversi_board"></div>
             <div style="width: 50px;"></div>
             <div style="display: inline-block;">
-                <div style="height: 130px;"></div>
+                <div style="height: 80px;"></div>
                 <label style="color: rgb(255, 166, 0);">
                     雙方都電腦功能可正常使用。
                     <br>
@@ -40,8 +40,14 @@
                     <option value="computer">電腦</option>
                 </select>
                 <br>
-                搜尋樹深度：
-                <input id="search_tree_level_limit" type="text" value="6" size=2>
+                搜尋樹深度-1：
+                <input id="search_tree_level_limit" type="text" value="4" size=2>
+                <br>
+                搜尋樹深度-2：
+                <input id="search_tree_level_limit" type="text" value="4" size=2>
+                <br>
+                搜尋樹深度-3：
+                <input id="search_tree_level_limit" type="text" value="4" size=2>
                 <br>
                 黑子數量：
                 <label id="black_size"></label>
@@ -58,6 +64,7 @@
         <link rel=stylesheet type="text/css" href="index.css">
         <script type="text/javascript" src="reversi.js"></script>
         <script type="text/javascript" src="reversiAI.js"></script>
+        <script type="text/javascript" src="reversiAI_test.js"></script>
         <script type="text/javascript" src="main.js"></script>
         
     </body>

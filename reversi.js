@@ -54,16 +54,20 @@ class reversi{
 
     get_step(){
         this.step = [];
-        var chess;
-        if (this.round)
-            chess = this.black;
-        else
-            chess = this.white;
+        let chess1, chess2;
+        if (this.round){
+            chess1 = this.black;
+            chess2 = this.white;
+        }else{
+            chess1 = this.white;
+            chess2 = this.black;
+        }
+            
 
         for (let i = 0; i < 8; i++){
             for (let j = 0; j < 8; j++){
                 let temp = new POINT(i, j);
-                if (this.is_empty(temp) && this.check_chess(chess, temp))   //如果該點不在黑、白棋裡，且他之間是可以下的
+                if (this.is_empty(temp) && this.check_chess(chess1, temp))   //如果該點不在黑、白棋裡，且他之間是可以下的
                     this.step.push(temp);
             }
         }
@@ -71,7 +75,7 @@ class reversi{
 
     //給定p，為該reversi下點p，並翻轉應該翻轉的棋子
     filp(p){
-        var chess1, chess2;
+        let chess1, chess2;
         if (this.round){
             chess1 = this.black;
             chess2 = this.white;
@@ -94,7 +98,7 @@ class reversi{
 
     //檢查chess和p是否可以下，同時記錄chess裡各點和p之間可以翻轉的棋子在this.filp.chess裡
     check_chess(chess, p){
-        var flag = false;
+        let flag = false;
         for (let i = 0; i < chess.length; i++){         //掃過chess裡的各點
             let delta_x = Math.abs(chess[i].x - p.x);
             let delta_y = Math.abs(chess[i].y - p.y);
@@ -113,14 +117,14 @@ class reversi{
     //EX:p1=黑, p2=黑, 但p1->p2中間還有顆黑子，則return false
     //   如果p1->p2中間都是白子，則return true
     check_path(p1, p2, filp_chess){
-        var chess;
+        let chess;
         if (!this.round)
             chess = this.black;
         else
             chess = this.white;
 
-        var offset = this.get_offset(p1, p2);
-        var point = new POINT(p1.x, p1.y);
+        let offset = this.get_offset(p1, p2);
+        let point = new POINT(p1.x, p1.y);
         while(true){
             point.add(offset);
             if (POINT.equal(point, p2))
@@ -142,9 +146,9 @@ class reversi{
 
     //計算p1和p2之間是否在同一條線上，用斜率來做
     calculate_slope(p1, p2){
-        var _x = (p2.x - p1.x);
-        var _y = (p2.y - p1.y);
-        var m = (_y / _x);
+        let _x = (p2.x - p1.x);
+        let _y = (p2.y - p1.y);
+        let m = (_y / _x);
 
         if (_x == 0.0)          //在水平線上
             return 0;
@@ -160,7 +164,7 @@ class reversi{
 
     //計算p1->p2的每一步的偏移量
     get_offset(p1, p2){
-        var x, y;
+        let x, y;
         if (p1.x == p2.x)
             x = 0;
         else
@@ -181,8 +185,8 @@ class reversi{
                 document.querySelector(`#index${i.toString()}${j.toString()}`).src="./empty.jpg";
             }
         }
-        var black = 0;
-        var white = 0;
+        let black = 0;
+        let white = 0;
         for (let i = 0; i<this.black.length; i++){
             document.querySelector(`#index${this.black[i].x}${this.black[i].y}`).src="./black.jpg";
             black += 1;
