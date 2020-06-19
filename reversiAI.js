@@ -137,8 +137,8 @@ class reversiAI{
             center++;
         }
 
-        //除了角點的邊邊的點
-        for (let i = 1; i < 7; i++){
+        for (let i = 2; i < 6; i++){
+            //除了角點的邊邊的點
             if (board.search_point_array(chess, 0, i)){ //上邊界
                 edge++;
             }
@@ -151,11 +151,8 @@ class reversiAI{
             if (board.search_point_array(chess, i, 7)){ //右邊界
                 edge++;
             }
-        }
-        
-        
-        //中心四點外面那圈
-        for (let i = 2; i < 6; i++){
+
+            //中心四點外面那圈
             if (board.search_point_array(chess, 2, i)){ //上邊界
                 inner_point++;
             }

@@ -16,17 +16,14 @@ async function run(i ,j){
         r.filp(new POINT(i ,j));
     }
 
-    if (((r.black.length + r.white.length) == 64) || r.black.length == 0 || r.white.length == 0){
-        if (r.black.length > r.white.length)
-            document.querySelector("#result").innerHTML = "黑子贏";
-        else if (r.black.length < r.white.length)
-            document.querySelector("#result").innerHTML = "白子贏";
-        else
-            document.querySelector("#result").innerHTML = "平手";
-    }
-    
     r.round = !r.round;
     r.get_step();
+
+    if (((r.black.length + r.white.length) == 64) || r.black.length == 0 || r.white.length == 0){
+        reversi_end(r);
+        return;
+    }
+    
     if (r.step.length == 0 && (r.black.length + r.white.length) != 64){
         if (r.round){
             alert("黑方跳過");
@@ -38,6 +35,12 @@ async function run(i ,j){
         }
         r.round = !r.round;
         r.get_step();
+
+        if (r.step.length == 0){
+            reversi_end(r);
+            return;
+        }
+
     }
 
     r.show_map();
@@ -46,30 +49,37 @@ async function run(i ,j){
     if ((r.black.length + r.white.length) != 64){
         if (r.round == true && black == "computer"){
             if ((r.black.length + r.white.length) < 15){
-                wai.set_level_limit(first);
-                wai.set_weight(15, 1, 4, 8, -2, 1.5, -15, 0, 0, 0, 0, -1.5);
-            }else if ((r.black.length + r.white.length) < 50){
-                wai.set_level_limit(middle);
-                wai.set_weight(25, 1, 4, 8, -3, 0, -30, -1, -4, -8, 3, -1.5);
-            }else if ((r.black.length + r.white.length) < 64){
-                wai.set_level_limit(final);
-                wai.set_weight(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, -1);
-            }
-
-            ai_run(wai);
-        }else if (r.round == false && white == "computer"){
-            if ((r.black.length + r.white.length) < 15){
                 bai.set_level_limit(first);
                 bai.set_weight(15, 1, 4, 8, -2, 1.5, -15, 0, 0, 0, 0, -1.5);
-            }else if ((r.black.length + r.white.length) < 50){
+            }else if ((r.black.length + r.white.length) < 40){
                 bai.set_level_limit(middle);
-                bai.set_weight(25, 1, 4, 8, -3, 0, -30, -1, -4, -8, 3, -1.5);
-            }else if ((r.black.length + r.white.length) < 64){
+                bai.set_weight(90, 5, 4, 8, -3, 0, -100, -5, -4, -8, 3, 0);
+            }else if ((r.black.length + r.white.length) < 58){
                 bai.set_level_limit(final);
+                bai.set_weight(90, 5, 2, 4, -3, 0, -100, -5, -2, -4, 3, 0);
+            }else{
+                bai.set_level_limit(10);
                 bai.set_weight(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, -1);
             }
 
             ai_run(bai);
+        }else if (r.round == false && white == "computer"){
+            if ((r.black.length + r.white.length) < 15){
+                wai.set_level_limit(first);
+                wai.set_weight(15, 1, 4, 8, -2, 1.5, -15, 0, 0, 0, 0, -1.5);
+            }else if ((r.black.length + r.white.length) < 40){
+                wai.set_level_limit(middle);
+                wai.set_weight(90, 5, 4, 8, -3, 0, -100, -5, -4, -8, 3, 0);
+            }else if ((r.black.length + r.white.length) < 58){
+                wai.set_level_limit(final);
+                wai.set_weight(90, 5, 2, 4, -3, 0, -100, -5, -2, -4, 3, 0);
+            }
+            else{
+                wai.set_level_limit(10);
+                wai.set_weight(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, -1);
+            }
+
+            ai_run(wai);
         }
     }
 }
@@ -88,6 +98,17 @@ async function ai_run(ai){
     run(p.x, p.y);
     document.querySelector("#ai_computing").innerHTML = "AI計算完成";
     await delay(30);
+}
+
+
+function reversi_end(r){
+    r.show_map();
+    if (r.black.length > r.white.length)
+            document.querySelector("#result").innerHTML = "黑子贏";
+        else if (r.black.length < r.white.length)
+            document.querySelector("#result").innerHTML = "白子贏";
+        else
+            document.querySelector("#result").innerHTML = "平手";
 }
 
 
