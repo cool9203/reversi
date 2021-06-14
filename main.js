@@ -48,34 +48,34 @@ async function run(i ,j){
 
     if ((r.black.length + r.white.length) != 64){
         if (r.round == true && black == "computer"){
-            if ((r.black.length + r.white.length) < 15){
+            if ((r.black.length + r.white.length) < 10){
                 bai.set_level_limit(first);
                 bai.set_weight(15, 1, 4, 8, -2, 1.5, -15, 0, 0, 0, 0, -1.5);
             }else if ((r.black.length + r.white.length) < 40){
                 bai.set_level_limit(middle);
-                bai.set_weight(90, 5, 4, 8, -3, 0, -100, -5, -4, -8, 3, 0);
-            }else if ((r.black.length + r.white.length) < 58){
+                bai.set_weight(25, 1, 4, 8, -3, 0, -30, -1, -4, -8, 3, -1.5);
+            }else if ((r.black.length + r.white.length) < 52){
                 bai.set_level_limit(final);
-                bai.set_weight(90, 5, 2, 4, -3, 0, -100, -5, -2, -4, 3, 0);
+                bai.set_weight(25, 1, 4, 8, 3, 0, -30, -1, -4, -8, -3, -1.5);
             }else{
-                bai.set_level_limit(10);
+                bai.set_level_limit(12);
                 bai.set_weight(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, -1);
             }
 
             ai_run(bai);
         }else if (r.round == false && white == "computer"){
-            if ((r.black.length + r.white.length) < 15){
+            if ((r.black.length + r.white.length) < 10){
                 wai.set_level_limit(first);
                 wai.set_weight(15, 1, 4, 8, -2, 1.5, -15, 0, 0, 0, 0, -1.5);
             }else if ((r.black.length + r.white.length) < 40){
                 wai.set_level_limit(middle);
-                wai.set_weight(90, 5, 4, 8, -3, 0, -100, -5, -4, -8, 3, 0);
-            }else if ((r.black.length + r.white.length) < 58){
+                wai.set_weight(25, 1, 4, 8, -3, 0, -30, -1, -4, -8, 3, -1.5);
+            }else if ((r.black.length + r.white.length) < 52){
                 wai.set_level_limit(final);
-                wai.set_weight(90, 5, 2, 4, -3, 0, -100, -5, -2, -4, 3, 0);
+                wai.set_weight(25, 1, 4, 8, 3, 0, -30, -1, -4, -8, -3, -1.5);
             }
             else{
-                wai.set_level_limit(10);
+                wai.set_level_limit(12);
                 wai.set_weight(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, -1);
             }
 
@@ -96,7 +96,7 @@ async function ai_run(ai){
     let p = ai.get_next(r);
     document.querySelector(`#index${p.x.toString()}${p.y.toString()}`).classList.add("computer_board");
     run(p.x, p.y);
-    document.querySelector("#ai_computing").innerHTML = "AI計算完成";
+    document.querySelector("#ai_computing").innerHTML = `AI計算完成`;
     await delay(30);
 }
 
